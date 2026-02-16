@@ -1,0 +1,77 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T16:23:20.336Z",
+  "summary": "Diff adds a React canvas-based 2D shooter with start/pause/game-over screens, HUD, React Query-powered leaderboard UI, and Motoko leaderboard APIs. However, backend persistence via stable storage is not implemented, and leaderboard display lacks the requested username/profile-name fallback behavior. Generated image asset files under public/ are not evidenced in the diff summary. There is also unrequested footer/branding content and emoji usage.",
+  "missing_requirements": [
+    {
+      "id": "REQ-4",
+      "requirement": "Use stable storage so leaderboard scores persist across canister upgrades (stable variables).",
+      "reason": "backend/main.mo defines `let scores = Map.empty<Principal, Nat>();` which is not a stable variable and no preupgrade/postupgrade or stable structure is shown, so persistence across upgrades is not evidenced.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Frontend leaderboard should show username fallback as the principal text if no profile name is available.",
+      "reason": "Leaderboard rows render a truncated principal string only (`slice(0, 20)}...`) and there is no profile/username lookup or fallback logic shown beyond principal text itself.",
+      "evidence": [
+        "frontend/src/components/leaderboard/LeaderboardPanel.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Add generated static image assets under frontend/public/assets/generated (player, enemy, bullet, background).",
+      "reason": "Frontend code references the expected paths, but the diff summary does not show the actual image files being added under `frontend/public/assets/generated` (binary/static assets may be omitted, but no evidence is provided here).",
+      "evidence": [
+        "frontend/src/game/assets.ts"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added a fixed footer with “Built with ❤️ using caffeine.ai” external link and branding.",
+      "reason": "BuildRequest does not request any footer/attribution branding, and user-facing UI text must be English (it is) but the heart emoji/branding is not requested.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "Backend rejects submitting a score of 0 or less (`if (score <= 0) { return }`).",
+      "reason": "BuildRequest/AC only requires not lowering an existing best score; it does not specify filtering out 0 scores.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/game/GameCanvas.tsx",
+    "frontend/src/components/game/GameOverScreen.tsx",
+    "frontend/src/components/game/GameShell.tsx",
+    "frontend/src/components/game/Hud.tsx",
+    "frontend/src/components/game/PauseOverlay.tsx",
+    "frontend/src/components/game/StartScreen.tsx",
+    "frontend/src/components/leaderboard/LeaderboardPanel.tsx",
+    "frontend/src/components/leaderboard/SubmitScoreCTA.tsx",
+    "frontend/src/game/assets.ts",
+    "frontend/src/game/input.ts",
+    "frontend/src/game/logic.ts",
+    "frontend/src/game/renderer.ts",
+    "frontend/src/game/types.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

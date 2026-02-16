@@ -1,0 +1,212 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "2D React shooter with HUD, themed UI, static sprites, and optional persistent leaderboard",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Implement a playable 2D browser shooting game with a complete game loop (start/play/pause/game over/restart), core mechanics, scoring, and increasing difficulty.",
+      "acceptanceCriteria": [
+        "A user can start a new run from a start screen and see the game transition to active play.",
+        "Player can move and shoot; bullets visibly spawn and travel in the aimed direction.",
+        "Enemies spawn repeatedly, move in a predictable pattern, and can be destroyed by player shots.",
+        "Collisions are detected reliably (bullets vs enemies; enemies vs player), updating score/lives accordingly.",
+        "Game ends when the loss condition is met (e.g., lives reach 0), showing final score and a Restart option.",
+        "Difficulty increases over time (e.g., spawn rate increases and/or enemy speed increases)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/game/types.ts",
+          "operation": "create",
+          "description": "Define game state and entity types (player, enemy, bullet), difficulty progression parameters, and shared math helpers to support a predictable 2D game loop."
+        },
+        {
+          "path": "frontend/src/game/assets.ts",
+          "operation": "create",
+          "description": "Implement static asset loading for player/enemy/bullet/background images from frontend/public/assets/generated and expose handles usable by the renderer."
+        },
+        {
+          "path": "frontend/src/game/input.ts",
+          "operation": "create",
+          "description": "Implement keyboard/mouse input handling for movement, aiming, shooting, pause toggle, and restart, with clean attach/detach suitable for React lifecycle."
+        },
+        {
+          "path": "frontend/src/game/logic.ts",
+          "operation": "create",
+          "description": "Implement the core simulation step: movement, enemy spawning, bullet spawning, collision detection, scoring, life/health changes, and difficulty ramp over time."
+        },
+        {
+          "path": "frontend/src/game/renderer.ts",
+          "operation": "create",
+          "description": "Implement the 2D renderer (Canvas-based) that draws the background and sprites for player, enemies, and bullets each frame using the loaded static assets."
+        },
+        {
+          "path": "frontend/src/components/game/GameCanvas.tsx",
+          "operation": "create",
+          "description": "Create a React component that owns the requestAnimationFrame loop, integrates input + simulation + rendering, and exposes callbacks/state updates for UI overlays (start/pause/game over)."
+        },
+        {
+          "path": "frontend/src/components/game/GameShell.tsx",
+          "operation": "create",
+          "description": "Create the top-level game container that manages the game loop states (start/play/pause/game over/restart) and composes the canvas plus overlays/HUD."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Wire the game into the application root by rendering the GameShell as the primary view (ensures no orphaned game components)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add a HUD and overlays for controls/instructions and pausing, keeping HUD live-updating during play and stopping simulation while paused.",
+      "acceptanceCriteria": [
+        "HUD remains visible during gameplay and updates in real time as score/lives change.",
+        "Start screen (or an overlay) lists controls in English (e.g., WASD/Arrow keys to move, mouse to aim, click/space to shoot, P/Esc to pause).",
+        "Pause overlay stops gameplay updates and provides a Resume option."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/game/Hud.tsx",
+          "operation": "create",
+          "description": "Create a HUD component showing score, lives/health, and difficulty level/wave; use shadcn-ui primitives (e.g., Card/Badge) for consistent UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/game/StartScreen.tsx",
+          "operation": "create",
+          "description": "Create a start screen overlay with clear English control instructions and a Start action; use shadcn-ui Button/Card for layout and actions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/game/PauseOverlay.tsx",
+          "operation": "create",
+          "description": "Create a pause overlay that blocks input to gameplay, displays controls reminder, and provides Resume/Restart actions using shadcn-ui Button. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/game/GameOverScreen.tsx",
+          "operation": "create",
+          "description": "Create a game-over overlay showing final score and a Restart action; provide a placeholder area for leaderboard submission and top scores to be composed in REQ-3. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/game/GameShell.tsx",
+          "operation": "modify",
+          "description": "Compose HUD and overlays into the game container; ensure pausing truly stops simulation updates and that start/restart transitions reset state deterministically."
+        },
+        {
+          "path": "frontend/src/components/game/GameCanvas.tsx",
+          "operation": "modify",
+          "description": "Add support for a paused mode that halts the simulation step and rendering updates (or keeps a static last frame) while leaving UI responsive."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add an optional persistent leaderboard: authenticated users can submit final score at game over; anyone can view a Top 10 leaderboard loaded via React Query with robust loading/error states.",
+      "acceptanceCriteria": [
+        "When the user is authenticated, the Game Over screen shows a \"Submit score\" action that writes to the backend.",
+        "Backend stores each principal’s best score (only updates if the submitted score is higher).",
+        "Frontend can display a Top 10 leaderboard with username fallback as the principal text if no profile name is available.",
+        "Unauthenticated users can play without errors; leaderboard submission is disabled or prompts sign-in.",
+        "Leaderboard view loads via React Query and handles loading/error states gracefully."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useLeaderboard.ts",
+          "operation": "create",
+          "description": "Create React Query hooks to (1) load Top 10 scores via the backend actor and (2) submit a score on demand, with cache invalidation after successful submission."
+        },
+        {
+          "path": "frontend/src/components/leaderboard/LeaderboardPanel.tsx",
+          "operation": "create",
+          "description": "Create a leaderboard UI panel that displays Top 10 entries with loading/error/empty states; display principal text as the fallback label; style using shadcn-ui components (e.g., Card/Table). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/leaderboard/SubmitScoreCTA.tsx",
+          "operation": "create",
+          "description": "Create a submission call-to-action for the Game Over screen: if authenticated, show \"Submit score\" and call submit; if not authenticated, disable and offer a \"Sign in\" action via useInternetIdentity(). Use shadcn-ui Button. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/game/GameOverScreen.tsx",
+          "operation": "modify",
+          "description": "Compose SubmitScoreCTA and LeaderboardPanel into the game-over overlay so users can submit (when signed in) and view Top 10 without navigating away."
+        },
+        {
+          "path": "frontend/src/hooks/useActor.ts",
+          "operation": "modify",
+          "description": "Ensure the actor hook remains compatible with leaderboard calls during both anonymous play and authenticated submission (no UI blocking); keep behavior as anonymous actor when not signed in."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Create and apply a cohesive Tailwind-based visual theme (non blue/purple primary palette) across start, HUD, pause, game over, and leaderboard using existing UI components via composition.",
+      "acceptanceCriteria": [
+        "All screens share a consistent theme (same typography scale, spacing, button styling, and palette).",
+        "Primary palette is not blue/purple-dominant.",
+        "UI uses Tailwind styling and existing UI components via composition (do not modify read-only component sources)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add/adjust global Tailwind + CSS variable theme tokens (shadcn-compatible) to establish a cohesive neon-arcade palette with non-blue/purple primary (e.g., neon green/orange accents), consistent typography, and overlay styling."
+        },
+        {
+          "path": "frontend/src/components/game/GameShell.tsx",
+          "operation": "modify",
+          "description": "Apply consistent layout styling for the full game view (background framing, overlay dimming, spacing) using Tailwind utilities and composed shadcn-ui components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/game/Hud.tsx",
+          "operation": "modify",
+          "description": "Align HUD typography, spacing, and colors with the global theme and ensure it remains readable over the starfield background. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/leaderboard/LeaderboardPanel.tsx",
+          "operation": "modify",
+          "description": "Apply the same theme tokens and component styling patterns used in other overlays for visual consistency. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add required generated static images (player/enemy/bullet/background) to the frontend and render them in-game without using the backend for image hosting.",
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and are referenced by the frontend at runtime.",
+        "The game uses the images for the player, enemies, and bullets, and uses the background image during gameplay.",
+        "No backend endpoints are used to host or proxy these images."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/player-ship.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated player sprite asset at the required path for runtime loading by the frontend renderer."
+        },
+        {
+          "path": "frontend/public/assets/generated/enemy-drone.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated enemy sprite asset at the required path for runtime loading by the frontend renderer."
+        },
+        {
+          "path": "frontend/public/assets/generated/laser-bullet.dim_64x64.png",
+          "operation": "create",
+          "description": "Add the generated bullet/laser sprite asset at the required path for runtime loading by the frontend renderer."
+        },
+        {
+          "path": "frontend/public/assets/generated/starfield-bg.dim_1920x1080.png",
+          "operation": "create",
+          "description": "Add the generated seamless starfield background asset at the required path for runtime loading by the frontend renderer."
+        },
+        {
+          "path": "frontend/src/game/assets.ts",
+          "operation": "modify",
+          "description": "Wire runtime references to the exact generated files: frontend/public/assets/generated/player-ship.dim_256x256.png, frontend/public/assets/generated/enemy-drone.dim_256x256.png, frontend/public/assets/generated/laser-bullet.dim_64x64.png, frontend/public/assets/generated/starfield-bg.dim_1920x1080.png."
+        },
+        {
+          "path": "frontend/src/game/renderer.ts",
+          "operation": "modify",
+          "description": "Render the background and sprites using the loaded images (Canvas drawing or equivalent) and ensure gameplay visuals use the correct assets throughout the run."
+        }
+      ]
+    }
+  ]
+}

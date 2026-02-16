@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a simple browser-based shooting game (likely with React visuals; optional backend for scoring/progress).",
+  "architectural_notes": [
+    "Target a browser-based shooter; use React for visuals; optionally add a backend for scoring/progress saving."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Top-down player spaceship sprite, neon arcade style, transparent background (player-ship.dim_256x256.png)\n- Enemy drone sprite, neon arcade style, transparent background (enemy-drone.dim_256x256.png)\n- Bullet/laser projectile sprite, neon arcade style, transparent background (laser-bullet.dim_64x64.png)\n- Seamless starfield background, dark with subtle neon accents (starfield-bg.dim_1920x1080.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-a-playable-2d-browser-shooting-game-in-the-react-frontend-with-a-complete-game-loop-start-play-pause-game-over-restart-the-game-must-include-player-movement-controls-shooting-mechanics-enemy-spawning-and-movement-bullet-enemy-collision-detection-player-damage-or-lives-scoring-and-increasing-difficulty-over-time",
+      "title": "Implement a playable 2D browser shooting game in the React frontend with a complete game loop (start, play, pause, game over, restart). The game must include: player movement controls, shooting mechanics, enemy spawning and movement, bullet/enemy collision detection, player damage or lives, scoring, and increasing difficulty over time.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-game-ui-layer-hud-that-displays-at-least-current-score-lives-health-and-current-difficulty-level-or-wave-indicator-include-clear-on-screen-instructions-for-controls-keyboard-mouse-on-the-start-screen-and-or-pause-overlay",
+      "title": "Create a game UI layer (HUD) that displays at least: current score, lives/health, and current difficulty level or wave indicator. Include clear on-screen instructions for controls (keyboard/mouse) on the start screen and/or pause overlay.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-persistent-leaderboard-backed-by-the-motoko-canister-allow-signed-in-users-internet-identity-to-submit-their-final-score-at-game-over-store-per-user-best-score-and-provide-a-public-top-10-leaderboard-query",
+      "title": "Add a persistent leaderboard backed by the Motoko canister: allow signed-in users (Internet Identity) to submit their final score at game over, store per-user best score, and provide a public Top 10 leaderboard query.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-establish-a-coherent-visual-theme-for-the-game-ui-colors-typography-layout-and-apply-it-consistently-across-the-start-screen-hud-pause-overlay-game-over-screen-and-leaderboard-avoid-blue-purple-as-the-primary-palette",
+      "title": "Establish a coherent visual theme for the game UI (colors, typography, layout) and apply it consistently across the start screen, HUD, pause overlay, game over screen, and leaderboard. Avoid blue/purple as the primary palette.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-required-generated-static-image-assets-player-enemy-bullet-background-to-the-frontend-and-render-them-in-game-either-via-canvas-drawing-or-positioned-dom-elements-without-serving-images-through-the-backend",
+      "title": "Add required generated static image assets (player, enemy, bullet, background) to the frontend and render them in-game (either via Canvas drawing or positioned DOM elements), without serving images through the backend.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a shooting game (browser-based).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Backend (single Motoko actor) must expose stable, minimal APIs for leaderboard functionality: submitScore(score : Nat) and getTopScores(limit : Nat) returning a sorted list with principals and scores. Use stable storage so scores persist across upgrades.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Browser-based shooting game with optional persistent leaderboard",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

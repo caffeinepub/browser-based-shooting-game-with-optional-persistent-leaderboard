@@ -1,0 +1,114 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-a-playable-2d-browser-shooting-game-in-the-react-frontend-with-a-complete-game-loop-start-play-pause-game-over-restart-the-game-must-include-player-movement-controls-shooting-mechanics-enemy-spawning-and-movement-bullet-enemy-collision-detection-player-damage-or-lives-scoring-and-increasing-difficulty-over-time",
+      "featureTitle": "Implement a playable 2D browser shooting game in the React frontend with a complete game loop (start, play, pause, game over, restart). The game must include: player movement controls, shooting mechanics, enemy spawning and movement, bullet/enemy collision detection, player damage or lives, scoring, and increasing difficulty over time.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/game/GameCanvas.tsx",
+        "frontend/src/components/game/GameShell.tsx",
+        "frontend/src/game/assets.ts",
+        "frontend/src/game/input.ts",
+        "frontend/src/game/logic.ts",
+        "frontend/src/game/renderer.ts",
+        "frontend/src/game/types.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-game-ui-layer-hud-that-displays-at-least-current-score-lives-health-and-current-difficulty-level-or-wave-indicator-include-clear-on-screen-instructions-for-controls-keyboard-mouse-on-the-start-screen-and-or-pause-overlay",
+      "featureTitle": "Create a game UI layer (HUD) that displays at least: current score, lives/health, and current difficulty level or wave indicator. Include clear on-screen instructions for controls (keyboard/mouse) on the start screen and/or pause overlay.",
+      "files": [
+        "frontend/src/components/game/GameCanvas.tsx",
+        "frontend/src/components/game/GameOverScreen.tsx",
+        "frontend/src/components/game/GameShell.tsx",
+        "frontend/src/components/game/Hud.tsx",
+        "frontend/src/components/game/PauseOverlay.tsx",
+        "frontend/src/components/game/StartScreen.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-persistent-leaderboard-backed-by-the-motoko-canister-allow-signed-in-users-internet-identity-to-submit-their-final-score-at-game-over-store-per-user-best-score-and-provide-a-public-top-10-leaderboard-query",
+      "featureTitle": "Add a persistent leaderboard backed by the Motoko canister: allow signed-in users (Internet Identity) to submit their final score at game over, store per-user best score, and provide a public Top 10 leaderboard query.",
+      "files": [
+        "frontend/src/components/game/GameOverScreen.tsx",
+        "frontend/src/components/leaderboard/LeaderboardPanel.tsx",
+        "frontend/src/components/leaderboard/SubmitScoreCTA.tsx",
+        "frontend/src/hooks/useActor.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-establish-a-coherent-visual-theme-for-the-game-ui-colors-typography-layout-and-apply-it-consistently-across-the-start-screen-hud-pause-overlay-game-over-screen-and-leaderboard-avoid-blue-purple-as-the-primary-palette",
+      "featureTitle": "Establish a coherent visual theme for the game UI (colors, typography, layout) and apply it consistently across the start screen, HUD, pause overlay, game over screen, and leaderboard. Avoid blue/purple as the primary palette.",
+      "files": [
+        "frontend/src/components/game/GameShell.tsx",
+        "frontend/src/components/game/Hud.tsx",
+        "frontend/src/components/leaderboard/LeaderboardPanel.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-required-generated-static-image-assets-player-enemy-bullet-background-to-the-frontend-and-render-them-in-game-either-via-canvas-drawing-or-positioned-dom-elements-without-serving-images-through-the-backend",
+      "featureTitle": "Add required generated static image assets (player, enemy, bullet, background) to the frontend and render them in-game (either via Canvas drawing or positioned DOM elements), without serving images through the backend.",
+      "files": [
+        "frontend/src/game/assets.ts",
+        "frontend/src/game/renderer.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

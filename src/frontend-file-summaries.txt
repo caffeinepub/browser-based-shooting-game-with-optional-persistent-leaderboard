@@ -1,0 +1,19 @@
+{
+  "frontend/src/game/types.ts": "Defines TypeScript types for game entities (player, enemies, bullets), game state, difficulty configuration, and math helper functions for 2D vector operations.",
+  "frontend/src/game/assets.ts": "Handles loading and caching of static game assets (player ship, enemy drone, laser bullet, starfield background) from the generated images directory.",
+  "frontend/src/game/input.ts": "Manages keyboard and mouse input handling with event listeners for movement (WASD/arrows), shooting (click/space), and pause controls.",
+  "frontend/src/game/logic.ts": "Implements core game simulation including player movement, enemy spawning with difficulty scaling, bullet mechanics, collision detection, and score tracking.",
+  "frontend/src/game/renderer.ts": "Canvas-based 2D renderer that draws the starfield background and all game sprites (player, enemies, bullets) using loaded image assets.",
+  "frontend/src/components/game/GameCanvas.tsx": "React component that owns the game loop via requestAnimationFrame, integrating input handling, game logic updates, and rendering while managing pause/restart states.",
+  "frontend/src/components/game/GameShell.tsx": "Top-level game container managing game phases (start/playing/paused/gameOver) and composing the canvas with all UI overlays and HUD, with corrected imports for createInitialState from logic module.",
+  "frontend/src/components/game/Hud.tsx": "Heads-up display showing real-time score, wave number, and player health with heart icons using shadcn Card and Badge components.",
+  "frontend/src/components/game/StartScreen.tsx": "Initial overlay with game title, control instructions (keyboard/mouse), and start button using shadcn Card components.",
+  "frontend/src/components/game/PauseOverlay.tsx": "Pause screen overlay with resume and restart options, displayed when player presses P or ESC.",
+  "frontend/src/components/game/GameOverScreen.tsx": "Game over screen showing final score and wave, with score submission CTA and leaderboard display.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for fetching top scores and submitting player scores to the backend with automatic cache invalidation.",
+  "frontend/src/components/leaderboard/LeaderboardPanel.tsx": "Displays top 10 scores in a table format with loading/error states, showing principal IDs and scores.",
+  "frontend/src/components/leaderboard/SubmitScoreCTA.tsx": "Score submission component that handles authentication state, prompting sign-in for unauthenticated users and allowing score submission for authenticated users.",
+  "frontend/src/App.tsx": "Main application component rendering the GameShell and footer with caffeine.ai attribution.",
+  "frontend/src/index.css": "Global styles with OKLCH color system featuring a neon green accent (140° hue) on dark space-themed background, avoiding blue/purple palette.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom font families (Inter, JetBrains Mono) and extended theme matching the neon-arcade aesthetic."
+}

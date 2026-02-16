@@ -1,0 +1,149 @@
+{
+  "kind": "build_request",
+  "title": "Browser-based shooting game with optional persistent leaderboard",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement a playable 2D browser shooting game in the React frontend with a complete game loop (start, play, pause, game over, restart). The game must include: player movement controls, shooting mechanics, enemy spawning and movement, bullet/enemy collision detection, player damage or lives, scoring, and increasing difficulty over time.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "shooting game"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A user can start a new run from a start screen and see the game transition to active play.",
+        "Player can move and shoot; bullets visibly spawn and travel in the aimed direction.",
+        "Enemies spawn repeatedly, move in a predictable pattern, and can be destroyed by player shots.",
+        "Collisions are detected reliably (bullets vs enemies; enemies vs player), updating score/lives accordingly.",
+        "Game ends when the loss condition is met (e.g., lives reach 0), showing final score and a Restart option.",
+        "Difficulty increases over time (e.g., spawn rate increases and/or enemy speed increases)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a game UI layer (HUD) that displays at least: current score, lives/health, and current difficulty level or wave indicator. Include clear on-screen instructions for controls (keyboard/mouse) on the start screen and/or pause overlay.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "shooting game"
+        ]
+      },
+      "acceptanceCriteria": [
+        "HUD remains visible during gameplay and updates in real time as score/lives change.",
+        "Start screen (or an overlay) lists controls in English (e.g., WASD/Arrow keys to move, mouse to aim, click/space to shoot, P/Esc to pause).",
+        "Pause overlay stops gameplay updates and provides a Resume option."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add a persistent leaderboard backed by the Motoko canister: allow signed-in users (Internet Identity) to submit their final score at game over, store per-user best score, and provide a public Top 10 leaderboard query.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "shooting game"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the user is authenticated, the Game Over screen shows a \"Submit score\" action that writes to the backend.",
+        "Backend stores each principal’s best score (only updates if the submitted score is higher).",
+        "Frontend can display a Top 10 leaderboard with username fallback as the principal text if no profile name is available.",
+        "Unauthenticated users can play without errors; leaderboard submission is disabled or prompts sign-in.",
+        "Leaderboard view loads via React Query and handles loading/error states gracefully."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Backend (single Motoko actor) must expose stable, minimal APIs for leaderboard functionality: submitScore(score : Nat) and getTopScores(limit : Nat) returning a sorted list with principals and scores. Use stable storage so scores persist across upgrades.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "shooting game"
+        ]
+      },
+      "acceptanceCriteria": [
+        "submitScore records best score per caller principal and does not allow lowering an existing best score.",
+        "getTopScores(limit) returns scores sorted descending and returns at most limit entries.",
+        "Data persists across canister upgrades using stable variables (no migration file unless required by implementation)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Establish a coherent visual theme for the game UI (colors, typography, layout) and apply it consistently across the start screen, HUD, pause overlay, game over screen, and leaderboard. Avoid blue/purple as the primary palette.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "shooting game"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All screens share a consistent theme (same typography scale, spacing, button styling, and palette).",
+        "Primary palette is not blue/purple-dominant.",
+        "UI uses Tailwind styling and existing UI components via composition (do not modify read-only component sources)."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add required generated static image assets (player, enemy, bullet, background) to the frontend and render them in-game (either via Canvas drawing or positioned DOM elements), without serving images through the backend.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "shooting game"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and are referenced by the frontend at runtime.",
+        "The game uses the images for the player, enemies, and bullets, and uses the background image during gameplay.",
+        "No backend endpoints are used to host or proxy these images."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (all logic in backend/main.mo).",
+    "Do not edit frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui. Compose/use them instead.",
+    "Use English for all user-facing UI text."
+  ],
+  "nonGoals": [
+    "3D shooter gameplay (no requirement to use Three.js/React Three Fiber unless needed later).",
+    "Real-time multiplayer or networking features.",
+    "Third-party authentication providers other than Internet Identity."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Top-down player spaceship sprite, neon arcade style, transparent background (player-ship.dim_256x256.png)",
+      "Enemy drone sprite, neon arcade style, transparent background (enemy-drone.dim_256x256.png)",
+      "Bullet/laser projectile sprite, neon arcade style, transparent background (laser-bullet.dim_64x64.png)",
+      "Seamless starfield background, dark with subtle neon accents (starfield-bg.dim_1920x1080.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

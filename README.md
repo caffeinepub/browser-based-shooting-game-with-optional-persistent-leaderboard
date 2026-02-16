@@ -1,2 +1,3 @@
-# browser-based-shooting-game-with-optional-persistent-leaderboard
-Exported from Caffeine project: Browser-based shooting game with optional persistent leaderboard
+## Browser-based shooting game with optional persistent leaderboard
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`
